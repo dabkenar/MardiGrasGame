@@ -6,7 +6,7 @@ let throwingItemTracker = [];
 let gameScore = 0;
 let beadCount = 0;
 let candyCount = 0;
-//let lifeCount = 10;
+let gamerMode = false;
 
 // Size Constants
 const FLOAT_1_WIDTH = 149;
@@ -110,8 +110,6 @@ function checkPickUp() {
     if (throwingItemTracker[i-1] === 1) {
       let throwingItem = $('#i-' + i);
       if (isColliding(player, throwingItem)) {
-        gameScore += SCORE_UNIT;
-        gwhScore.text(gameScore);
         handleRemovals(i, true);
       } //if isColliding
     } //if item Exists
@@ -122,8 +120,12 @@ function throwObject() {
   if (parseInt(paradeFloat2.css('left')) + 70 > maxItemPosX) {
     return;
   }
-  if (Math.floor(getRandomNumber(1,4)) == 2) {
+  let roll = Math.floor(getRandomNumber(1,4));
+  if (roll == 2) {
     createThrowingItem(throwingItemIdx, "candy");
+  }
+  else if (gamerMode && roll == 3) {
+    createThrowingItem(throwingItemIdx, "mask");
   }
   else {
     createThrowingItem(throwingItemIdx, "beads");
@@ -176,10 +178,19 @@ function handleRemovals(objectID, pickup){
     if (throwingItem.attr("class") == "candy") {
       candyCount++;
       gwhCandy.text(candyCount);
+      gameScore += SCORE_UNIT;
+      gwhScore.text(gameScore);
+    }
+    else if (throwingItem.attr("class") == "mask") {
+      console.log("Mask pickup");
+      gameScore -= 2 * SCORE_UNIT;
+      gwhScore.text(gameScore);
     }
     else {
       beadCount++;
       gwhBeads.text(beadCount);
+      gameScore += SCORE_UNIT;
+      gwhScore.text(gameScore);
     }
   }
   else {
@@ -300,13 +311,25 @@ function showSettingsPanel() {
   $("#settings-button").hide();
 }
 
+function enableGamerMode() {
+  console.log("gamer mode enabled");
+  gamerMode = true;
+}
+
+function disableGamerMode() {
+  console.log("gamer mode disabled");
+  gamerMode = false;
+}
+
 function generateSettingsPanel() {
   console.log("hello world");
 
   let panelContent = "<span id='open-settings'>Item thrown from parade float every<form><input type='text' id='throwFreq' value='2000'>milliseconds (min allowed value: 100)</span>";
-  let saveContent = "<p style='margin:0'></p><input id='save-button' type='submit' onclick='updateSettingsPanel(true)' value='Save and close settings panel'</form>";
+  let saveContent = "<p></p><input id='save-button' type='submit' onclick='updateSettingsPanel(true)' value='Save and close settings panel'</form>";
   let discardContent = "<button id='discard-button' type='button' onclick='updateSettingsPanel(false)'>Discard and close settings panel</button>";
+  let gamerContent = "<span id='gamer-mode'>Elite Gamer Mode:<button id='gamer-enable' type='button' onclick='enableGamerMode()'>Enable</button><button id='gamer-disable' type='button' onclick='disableGamerMode()'>Disable</button></span>";
   $("#open-panel").append(panelContent);
+  $("#open-panel").append(gamerContent);
   $("#open-panel").append(saveContent);
   $("#open-panel").append(discardContent);
   $("#open-panel").hide();
