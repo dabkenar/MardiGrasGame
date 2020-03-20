@@ -327,7 +327,7 @@ function generateSettingsPanel() {
   let panelContent = "<span id='open-settings'>Item thrown from parade float every<form><input type='text' id='throwFreq' value='2000'>milliseconds (min allowed value: 100)</span>";
   let saveContent = "<p></p><input id='save-button' type='submit' onclick='updateSettingsPanel(true)' value='Save and close settings panel'</form>";
   let discardContent = "<button id='discard-button' type='button' onclick='updateSettingsPanel(false)'>Discard and close settings panel</button>";
-  let gamerContent = "<span id='gamer-mode'>Elite Gamer Mode:<button id='gamer-enable' type='button' onclick='enableGamerMode()'>Enable</button><button id='gamer-disable' type='button' onclick='disableGamerMode()'>Disable</button></span>";
+  let gamerContent = "<span id='gamer-mode'>Curse of the Mask:<button id='gamer-enable' type='button' onclick='enableGamerMode()'>Enable</button><button id='gamer-disable' type='button' onclick='disableGamerMode()'>Disable</button></span>";
   $("#open-panel").append(panelContent);
   $("#open-panel").append(gamerContent);
   $("#open-panel").append(saveContent);
