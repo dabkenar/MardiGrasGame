@@ -1,7 +1,7 @@
 In order to install this game download the repository from github navigate to that directory and launch a local server to run it.
 
 eg.
-php -S localhost:8000 
+'''php -S localhost:8000'''
 
 (url: http://localhost:8000/)
 
